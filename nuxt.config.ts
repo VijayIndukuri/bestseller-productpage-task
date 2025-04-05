@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     '@nuxtjs/robots',
     '@nuxtjs/sitemap',
     '@nuxtjs/eslint-module',
-    'nuxt-icon'
+    '@nuxt/icon'
   ],
   eslint: {
     lintOnStart: false
@@ -19,8 +19,8 @@ export default defineNuxtConfig({
   ],
   app: {
     head: {
-      titleTemplate: '%s - My Nuxt App',
-      title: 'My Nuxt App',
+      titleTemplate: '%s - Clothing Store',
+      title: 'Clothing Store',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },

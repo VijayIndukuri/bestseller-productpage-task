@@ -28,7 +28,10 @@ export default [
       parser: typescriptParser,
       globals: {
         defineNuxtConfig: 'readonly',
-        process: 'readonly'
+        process: 'readonly',
+        console: 'readonly',
+        window: 'readonly',
+        document: 'readonly'
       }
     },
     rules: {

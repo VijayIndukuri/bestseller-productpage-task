@@ -15,22 +15,6 @@
 </template>
 
 <script setup>
-// Local product data
-const products = [
-  { 
-    id: 1, 
-    name: 'Product 1', 
-    description: 'Description for product 1' 
-  },
-  { 
-    id: 2, 
-    name: 'Product 2', 
-    description: 'Description for product 2' 
-  },
-  { 
-    id: 3, 
-    name: 'Product 3', 
-    description: 'Description for product 3' 
-  }
-]
+import data from '@/data/data.json'
+const products = data.products;
 </script> 

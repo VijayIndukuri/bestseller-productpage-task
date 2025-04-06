@@ -1,16 +1,18 @@
 <template>
-  <div class="container mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6">Welcome to the Homepage</h1>
-    <p class="mb-4">This is an example Nuxt 3 project with automatic routing.</p>
-    <nav>
-      <ul class="flex gap-4">
-        <li><NuxtLink to="/about" class="text-blue-500 hover:underline">About</NuxtLink></li>
-        <li><NuxtLink to="/products" class="text-blue-500 hover:underline">Products</NuxtLink></li>
-      </ul>
-    </nav>
+  <div class="container mx-auto px-6 py-12">
+    <h1 class="text-3xl font-semibold tracking-tight mb-2">Products</h1>
+    <p class="text-gray-500 mb-8 font-light">Explore our collection of quality clothing</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <ProductCard 
+        v-for="product in products" 
+        :key="product.id" 
+        :product="product" 
+      />
+    </div>
   </div>
 </template>
 
 <script setup>
-// Home page logic here
+import data from '@/data/data.json'
+const products = data.products;
 </script> 

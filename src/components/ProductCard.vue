@@ -1,11 +1,11 @@
 <template>
-  <div class="border p-4 rounded shadow-sm hover:shadow-md transition-shadow">
-    <div v-if="hasImages" class=" relative w-full object-cover rounded mb-4">
+  <div class="border p-4 rounded shadow-sm hover:shadow-md transition-shadow group">
+    <div v-if="hasImages" class="relative w-full object-cover rounded mb-4">
       <img :src="currentImage" class="w-full h-full object-cover rounded mb-4">
-      <button v-if="hasMultipleImages" class="absolute top-1/2 left-2 transform -translate-y-1/2 text-white bg-black bg-opacity-50 px-2 py-1 rounded-full" @click="prevImage">
+      <button v-if="hasMultipleImages" class="absolute top-1/2 left-2 transform -translate-y-1/2 text-white bg-black bg-opacity-50 px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" @click="prevImage">
         <Icon name="mdi:chevron-left" class="w-4 h-4" />
       </button>
-      <button v-if="hasMultipleImages" class="absolute top-1/2 right-2 transform -translate-y-1/2 text-white bg-black bg-opacity-50 px-2 py-1 rounded-full" @click="nextImage">
+      <button v-if="hasMultipleImages" class="absolute top-1/2 right-2 transform -translate-y-1/2 text-white bg-black bg-opacity-50 px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" @click="nextImage">
         <Icon name="mdi:chevron-right" class="w-4 h-4" />
       </button>
     </div>

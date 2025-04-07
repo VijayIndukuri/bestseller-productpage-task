@@ -2,17 +2,52 @@
   <div class="container mx-auto px-6 py-12">
     <h1 class="text-3xl font-semibold tracking-tight mb-2">Products</h1>
     <p class="text-gray-500 mb-8 font-light">Explore our collection of quality clothing</p>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div v-if="filteredProducts.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <ProductCard 
-        v-for="product in products" 
+        v-for="product in filteredProducts" 
         :key="product.id" 
         :product="product" 
       />
+    </div>
+    <div v-else class="text-center py-8">
+      <p class="text-gray-500">No products found matching your search criteria</p>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref, computed, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import data from '@/data/data.json'
-const products = data.products;
+
+const route = useRoute()
+const allProducts = ref(data.products)
+const searchQuery = ref('')
+
+onMounted(() => {
+  if (route.query.search) {
+    searchQuery.value = route.query.search.toString()
+  }
+})
+
+watch(() => route.query.search, (newVal) => {
+  if (newVal) {
+    searchQuery.value = newVal.toString()
+  } else {
+    searchQuery.value = ''
+  }
+})
+
+const filteredProducts = computed(() => {
+  if (!searchQuery.value.trim()) {
+    return allProducts.value
+  }
+  
+  const query = searchQuery.value.toLowerCase()
+  return allProducts.value.filter(product => {
+    const name = product.name?.dk?.toLowerCase() || ''
+    const description = product.description?.dk?.toLowerCase() || ''
+    return name.includes(query) || description.includes(query)
+  })
+})
 </script> 

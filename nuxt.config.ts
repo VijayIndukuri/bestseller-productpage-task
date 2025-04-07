@@ -27,7 +27,7 @@ export default defineNuxtConfig({
         { name: 'description', content: 'Clothing Store for bestseller products' }
       ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+        { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }
       ]
     }
   }

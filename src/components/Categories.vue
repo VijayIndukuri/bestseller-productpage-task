@@ -10,7 +10,16 @@
                 :class="{ 'bg-blue-200 shadow-sm': selectedCategory && selectedCategory.id === category.id }"
                 @click="toggleCategory(category)"
             >
-                {{ category.name.en || category.name.dk }}
+                <div v-if="category.categories">
+                    {{ category.name.en || category.name.dk }}
+                </div>
+                <NuxtLink
+                v-else
+                :to="`/products?category=${category.id}`"
+                class=""
+                >
+                    {{ category.name.en || category.name.dk }}
+                </NuxtLink>
             </li>
         </ul>
     </div>

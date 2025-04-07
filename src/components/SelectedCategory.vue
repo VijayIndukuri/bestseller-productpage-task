@@ -1,22 +1,39 @@
 <template>
     <!-- Nested category tree (only shown when a category is selected) -->
-    <div v-if="selectedCategory" class="w-[100vw] h-[100px] border-b border-gray-100">
-
-      <h3 class="text-center text-gray-700 mb-4 font-medium border-b border-gray-100 pb-3">
-        {{ selectedCategory.name.dk || selectedCategory.name.en }}
-      </h3>
-      <div class="category-tree">
-        <CategoryTree 
-          :category="selectedCategory" 
-          :level="0" 
-        />
+    <div v-if="selectedCategory" class="w-[100vw] border-b border-gray-100">
+      <!--h3 class="text-center text-gray-700 mb-4 font-medium border-b border-gray-100 pb-3">
+        {{ selectedCategory.name.en || selectedCategory.name.dk }}
+      </h3-->
+      <div v-if="selectedCategory.categories" class="flex flex-wrap content-center gap-4">
+        <div v-for="category in selectedCategory.categories" :key="category.id" class="flex flex-col gap-4" @click="subSelection(category)">
+            
+            <div v-if="category.categories" class="flex flex-wrap content-center gap-4">
+                <p>{{ category.name.en || category.name.dk }}</p>
+            </div>
+            <div v-else>
+                <NuxtLink
+                :to="`/products?category=${category.id}`"
+                class="px-3 py-1 bg-blue-50 hover:bg-blue-100 rounded-md transition-colors inline-block"
+                >
+                    {{ category.name.en || category.name.dk }}
+                </NuxtLink>
+            </div>
+        </div>
       </div>
+      <div v-if="selectedSubCategory" class="category-container">
+        <div class="category-tree">
+            <CategoryTree 
+                :category="selectedSubCategory" 
+                :level="0" 
+            />
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
-//import { ref } from 'vue'
-//import CategoryTree from './CategoryTree.vue'
+import { ref } from 'vue'
+import CategoryTree from './CategoryTree.vue'
 
 const props = defineProps({
     selectedCategory: {
@@ -25,36 +42,41 @@ const props = defineProps({
     }
 })
 console.log(props.selectedCategory)
+const selectedSubCategory = ref(null)
+const subSelection = (category) => {
+    if (category.categories) {
+        selectedSubCategory.value = category
+    }
+}
 </script>
 <style scoped>
 .category-tree {
-  max-height: 400px;
-  overflow-y: auto;
-  padding-right: 10px;
+  padding: 0 20px;
 }
 
 .category-container {
   transition: all 0.3s ease;
-  max-width: 700px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+  overflow-x: auto;
 }
 
-.category-tree::-webkit-scrollbar {
-  width: 6px;
+.category-container::-webkit-scrollbar {
+  height: 6px;
 }
 
-.category-tree::-webkit-scrollbar-track {
+.category-container::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 10px;
 }
 
-.category-tree::-webkit-scrollbar-thumb {
+.category-container::-webkit-scrollbar-thumb {
   background: #d1d5db;
   border-radius: 10px;
 }
 
-.category-tree::-webkit-scrollbar-thumb:hover {
+.category-container::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
 </style>

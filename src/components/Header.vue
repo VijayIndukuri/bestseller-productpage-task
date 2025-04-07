@@ -23,14 +23,31 @@
             <div class="md:hidden mr-4">
             <button 
                 class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600"
-                @click="handleSearch"
+                @click="toggleHandleSearch = !toggleHandleSearch"
             >
                 <Icon name="uil:search" class="w-6 h-6" />
             </button>
             </div>
         </div>
       </div>
-      <div v-if="mobileMenuOpen" class="md:hidden flex flex-col w-fullitems-center justify-between border-t border-gray-200">
+      <div v-if="toggleHandleSearch" class="md:hidden mt-3 px-4 w-full"> 
+        <div class="relative flex items-center">
+          <input 
+              v-model="searchQuery" 
+              type="text" 
+              placeholder="Search products..." 
+              class="w-full pl-3 pr-10 py-2 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:border-blue-500"
+              @keyup.enter="handleSearch"
+          />
+          <button 
+              class="absolute right-3 text-gray-400 hover:text-blue-600"
+              @click="handleSearch"
+          >
+              <Icon name="uil:search" class="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+      <div v-if="mobileMenuOpen" class="md:hidden font-light flex flex-col w-fullitems-center justify-between border-t border-gray-200">
         <ul class="py-1">
           <li v-for="category in topLevelCategories" :key="category.id" class="px-4 py-2 hover:bg-gray-100 cursor-pointer mx-auto border-b border-gray-200 flex  items-center justify-between" @click="selectedCategory = category">
             <div v-if="category.categories">
@@ -86,6 +103,7 @@ const handleClickOutside = (event) => {
     // Check if the click is outside the header element
     if (!headerRef.value.contains(event.target)) {
       selectedCategory.value = null
+      mobileMenuOpen.value = false
     }
   }
 }
@@ -98,7 +116,7 @@ const handleTopLevelCategories = (categories) => {
     topLevelCategories.value = categories
 }
 
-
+const toggleHandleSearch = ref(false)
 
 // Add and remove event listeners
 onMounted(() => {

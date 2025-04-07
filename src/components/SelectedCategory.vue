@@ -5,27 +5,28 @@
         {{ selectedCategory.name.en || selectedCategory.name.dk }}
       </h3-->
       <div v-if="selectedCategory.categories" class="flex flex-wrap justify-center gap-4">
-        <div v-for="category in selectedCategory.categories" :key="category.id" class="flex flex-col gap-4" @click="subSelection(category)">
-            
-            <div v-if="category.categories" class="flex flex-wrap content-center gap-4 cursor-pointer">
-                <p>{{ category.name.en || category.name.dk }}</p>
-            </div>
-            <div v-else>
-                <NuxtLink
-                :to="`/products?category=${category.id}`"
-                class=""
-                >
-                    {{ category.name.en || category.name.dk }}
-                </NuxtLink>
+            <div v-for="category in selectedCategory.categories" :key="category.id" class="flex flex-col gap-4" @click="subSelection(category)">
+                
+                <div v-if="category.categories" class="flex flex-wrap content-center gap-4 cursor-pointer">
+                    <p>{{ category.name.en || category.name.dk }}</p>
+                </div>
+                <div v-else>
+                    <NuxtLink
+                    :to="`/products?category=${category.id}`"
+                    class=""
+                    >
+                        {{ category.name.en || category.name.dk }}
+                    </NuxtLink>
+                </div>
             </div>
         </div>
-      </div>
-      <div v-if="selectedSubCategory" class="">
-        <div class="">
-            <CategoryTree 
-                :category="selectedSubCategory" 
-                :level="0" 
-            />
+        <div v-if="selectedSubCategory" class="">
+            <div class="">
+                <CategoryTree 
+                    :category="selectedSubCategory" 
+                    :level="0" 
+                    @close="closeSubCategory"
+                />
             </div>
         </div>
     </div>
@@ -49,6 +50,9 @@ const subSelection = (category) => {
     else {
         selectedSubCategory.value = null
     }
+}
+const closeSubCategory = () => {
+    selectedSubCategory.value = null
 }
 </script>
 <style scoped>

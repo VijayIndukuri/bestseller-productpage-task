@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center my-4">
+  <div class="flex justify-center my-4" @click="emit('close')">
     <!-- If it has children, show as a parent category with children underneath -->
     <div v-if="hasSubcategories" class="flex flex-col items-center">
       <!--div class="text-center mb-2">
@@ -42,6 +42,7 @@ const props = defineProps({
     required: true
   }
 })
+const emit = defineEmits(['close'])
 
 // Check if the category has subcategories
 const hasSubcategories = computed(() => {

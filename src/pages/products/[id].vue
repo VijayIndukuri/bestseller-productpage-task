@@ -1,35 +1,35 @@
 <template>
-  <div class="container mx-auto p-6">
+  <div class="container mx-auto p-4 sm:p-6">
     <div class="mb-2 text-gray-400 text-sm">
       <Icon name="mdi:chevron-left" class="text-black hover:underline" />
       <NuxtLink to="/products" class="hover:underline">Back to Products</NuxtLink>
     </div>
-    <div v-if="product" class="grid grid-cols-5 md:flex-row gap-6">
-      <div v-if="productImages.length > 0" class="col-span-3 flex flex-col items-center">
-        <img :src="currentImage" class="w-2/3 rounded shadow-lg">
-        <div class="flex mt-4 gap-2">
+    <div v-if="product" class="grid grid-cols-1 md:grid-cols-5 gap-6">
+      <div v-if="productImages.length > 0" class="md:col-span-3 flex flex-col items-center">
+        <img :src="currentImage" class="w-full sm:w-2/3 rounded shadow-lg">
+        <div class="flex mt-4 gap-2 flex-wrap justify-center">
           <img 
             v-for="(image, idx) in productImages" 
             :key="idx" 
             :src="image" 
-            class="w-16 h-16 object-cover cursor-pointer border-2"
+            class="w-14 h-14 sm:w-16 sm:h-16 object-cover cursor-pointer border-2"
             :class="currentImageIndex === idx ? 'border-blue-500' : 'border-gray-200'" 
             @click="currentImageIndex = idx"
           />
         </div>
       </div>
-      <div class="col-span-2">
-        <h1 class="text-xl font-bold mb-6">{{ product.name.dk || product.name.en }}</h1>
+      <div class="md:col-span-2">
+        <h1 class="text-xl font-bold mb-4 sm:mb-6">{{ product.name.dk || product.name.en }}</h1>
         <p class="text-xl font-semibold mb-4">{{ product.price }} kr</p>
         
         <!-- Color options with visual indicator -->
         <div class="mb-4">
           <p class="mb-2">Color: {{ product.color }}</p>
-          <div class="flex space-x-2">
+          <div class="flex space-x-2 flex-wrap">
             <div 
               v-for="(color, idx) in availableColors" 
               :key="idx" 
-              class="w-8 h-8 rounded-full border cursor-pointer"
+              class="w-8 h-8 rounded-full border cursor-pointer mb-2"
               :class="selectedColor === color ? 'ring-2 ring-blue-500' : ''"
               :style="{ backgroundColor: getColorCode(color) }"
               @click="selectedColor = color"
@@ -39,15 +39,15 @@
         
         <!-- Size selection -->
         <div class="mb-6">
-          <div class="flex justify-between items-center mb-2">
-            <p>Select size</p>
+          <div class="flex justify-between items-center mb-2 flex-wrap">
+            <p class="mb-1 sm:mb-0">Select size</p>
             <button class="text-sm text-blue-600 underline">What is my size?</button>
           </div>
-          <div class="grid grid-cols-3 gap-2 mb-2">
+          <div class="grid grid-cols-3 sm:grid-cols-4 gap-2 mb-2">
             <button 
               v-for="(size, idx) in product.size" 
               :key="idx" 
-              class="py-2 border rounded-md hover:border-black"
+              class="py-2 border rounded-md hover:border-black text-sm sm:text-base"
               :class="selectedSize === size ? 'border-black font-semibold' : 'border-gray-300'"
               @click="selectedSize = size"
             >
@@ -67,7 +67,7 @@
         </div>
         
         <!-- Additional info -->
-        <div class="border-t pt-6 space-y-4">
+        <div class="border-t pt-4 sm:pt-6 space-y-3 sm:space-y-4">
           <div class="flex items-start">
             <Icon name="mdi:truck-delivery-outline" class="mt-1 mr-3" size="20" />
             <p>Free delivery over 399 KR</p>

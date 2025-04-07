@@ -1,7 +1,6 @@
 <template>
   <div class="font-inter">
     <Header />
-    <Categories />
     <main class="min-h-screen">
       <slot />
     </main>
@@ -13,7 +12,6 @@
 <script setup>
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
-import Categories from '~/components/Categories.vue'
 </script>
 
 <style>

@@ -1,14 +1,15 @@
 <template>
-  <header class="text-black py-5 border-b border-gray-100">
+  <header ref="headerRef" class="text-black py-5 border-b border-gray-100">
     <div class="container mx-auto">
       <div class="flex flex-row items-center justify-between">
-        <nav>
+        <!--nav>
           <ul class="flex gap-8">
             <li><NuxtLink to="/products" class="font-light hover:text-blue-600 transition-colors">Men</NuxtLink></li>
             <li><NuxtLink to="/" class="font-light hover:text-blue-600 transition-colors">Women</NuxtLink></li>
             <li><NuxtLink to="/" class="font-light hover:text-blue-600 transition-colors">Kids</NuxtLink></li>
           </ul>
-        </nav>
+        </nav-->
+        <Categories ref="categoriesRef" @selectedCategory="handleSelectedCategory" />
         <h1 class="text-xl font-bold tracking-widest mb-4">CLOTHING STORE</h1>
         <div class="relative">
           <input 
@@ -27,15 +28,20 @@
         </div>
       </div>
     </div>
+    <SelectedCategory v-if="selectedCategory" ref="selectedCategoryRef" :selectedCategory="selectedCategory" />
   </header>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-
+import Categories from './Categories.vue';
+import SelectedCategory from './SelectedCategory.vue';
 const router = useRouter()
 const searchQuery = ref('')
+const headerRef = ref(null)
+const categoriesRef = ref(null)
+const selectedCategoryRef = ref(null)
 
 const handleSearch = () => {
   if (searchQuery.value.trim()) {
@@ -45,4 +51,29 @@ const handleSearch = () => {
     })
   }
 }
+
+const selectedCategory = ref(null)
+const handleSelectedCategory = (category) => {
+  //console.log(category) 
+  selectedCategory.value = category
+}
+
+// Function to handle clicks outside of the category components
+const handleClickOutside = (event) => {
+  if (selectedCategory.value && headerRef.value) {
+    // Check if the click is outside the header element
+    if (!headerRef.value.contains(event.target)) {
+      selectedCategory.value = null
+    }
+  }
+}
+
+// Add and remove event listeners
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 </script> 

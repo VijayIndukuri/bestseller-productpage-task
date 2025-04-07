@@ -7,7 +7,7 @@
       <div v-if="selectedCategory.categories" class="flex flex-wrap justify-center gap-4">
         <div v-for="category in selectedCategory.categories" :key="category.id" class="flex flex-col gap-4" @click="subSelection(category)">
             
-            <div v-if="category.categories" class="flex flex-wrap content-center gap-4">
+            <div v-if="category.categories" class="flex flex-wrap content-center gap-4 cursor-pointer">
                 <p>{{ category.name.en || category.name.dk }}</p>
             </div>
             <div v-else>

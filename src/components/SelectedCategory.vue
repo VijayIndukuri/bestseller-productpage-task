@@ -1,10 +1,10 @@
 <template>
     <!-- Nested category tree (only shown when a category is selected) -->
-    <div v-if="selectedCategory" class="w-[100vw] border-b border-gray-100">
+    <div v-if="props.selectedCategory" class="w-[100vw] font-light">
       <!--h3 class="text-center text-gray-700 mb-4 font-medium border-b border-gray-100 pb-3">
         {{ selectedCategory.name.en || selectedCategory.name.dk }}
       </h3-->
-      <div v-if="selectedCategory.categories" class="flex flex-wrap content-center gap-4">
+      <div v-if="selectedCategory.categories" class="flex flex-wrap justify-center gap-4">
         <div v-for="category in selectedCategory.categories" :key="category.id" class="flex flex-col gap-4" @click="subSelection(category)">
             
             <div v-if="category.categories" class="flex flex-wrap content-center gap-4">
@@ -13,15 +13,15 @@
             <div v-else>
                 <NuxtLink
                 :to="`/products?category=${category.id}`"
-                class="px-3 py-1 bg-blue-50 hover:bg-blue-100 rounded-md transition-colors inline-block"
+                class=""
                 >
                     {{ category.name.en || category.name.dk }}
                 </NuxtLink>
             </div>
         </div>
       </div>
-      <div v-if="selectedSubCategory" class="category-container">
-        <div class="category-tree">
+      <div v-if="selectedSubCategory" class="">
+        <div class="">
             <CategoryTree 
                 :category="selectedSubCategory" 
                 :level="0" 
@@ -41,11 +41,13 @@ const props = defineProps({
         required: true
     }
 })
-console.log(props.selectedCategory)
 const selectedSubCategory = ref(null)
 const subSelection = (category) => {
     if (category.categories) {
         selectedSubCategory.value = category
+    }
+    else {
+        selectedSubCategory.value = null
     }
 }
 </script>

@@ -1,8 +1,8 @@
 <template>
-  <div class="mb-8 content-center">
+  <div class="content-center">
     <!-- Main categories (top level) -->
     <div class="flex flex-wrap gap-3 justify-center mb-4">
-        <ul class="flex gap-8 mt-8 justify-center">
+        <ul class="flex gap-8 mt-4 justify-center">
             <li 
                 v-for="category in topLevelCategories" 
                 :key="category.id" 

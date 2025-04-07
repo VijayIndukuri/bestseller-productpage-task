@@ -1,10 +1,10 @@
 <template>
   <header ref="headerRef" class="text-black py-5 border-b border-gray-100">
     <div class="container mx-auto">
-      <div class="flex flex-row items-center justify-between">
-        <Categories ref="categoriesRef" @selectedCategory="handleSelectedCategory" @mobileMenuOpen="handleMobileMenuOpen" @topLevelCategories="handleTopLevelCategories" />
+      <div class="flex flex-row items-center md:justify-between justify-center my-4">
+        <Categories ref="categoriesRef" @selectedCategory="handleSelectedCategory" @mobileMenuOpen="handleMobileMenuOpen" @topLevelCategories="handleTopLevelCategories" class="md:relative absolute left-4" />
         <h1 class="text-xl font-bold"><NuxtLink to="/">CLOTHING STORE</NuxtLink></h1>
-        <div class="relative">
+        <div class="md:relative absolute right-4">
             <div class="md:block hidden">
                 <input 
                     v-model="searchQuery" 
@@ -20,9 +20,9 @@
                     <Icon name="uil:search" class="w-4 h-4" />
                 </button>
             </div>
-            <div class="md:hidden mr-4">
+            <div class="md:hidden">
             <button 
-                class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600"
+                class="text-gray-400 hover:text-blue-600"
                 @click="toggleHandleSearch = !toggleHandleSearch"
             >
                 <Icon name="uil:search" class="w-6 h-6" />
@@ -99,11 +99,12 @@ const handleSelectedCategory = (category) => {
 
 // Function to handle clicks outside of the category components
 const handleClickOutside = (event) => {
-  if (selectedCategory.value && headerRef.value) {
+  if (headerRef.value) {
     // Check if the click is outside the header element
     if (!headerRef.value.contains(event.target)) {
       selectedCategory.value = null
       mobileMenuOpen.value = false
+      toggleHandleSearch.value = false
     }
   }
 }

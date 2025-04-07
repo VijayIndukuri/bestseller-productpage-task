@@ -1,11 +1,11 @@
 <template>
   <div class="">
     <!-- Main categories (top level) mobile view -->
-    <div class="md:hidden w-full pl-4 py-4">
+    <div class="md:hidden w-full py-4">
       <div class="relative">
         <button 
-          @click="toggleMobileMenu()" 
-          class="w-full flex items-center justify-between bg-white border border-gray-300 rounded-md px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none"
+          class="w-full flex items-center justify-between bg-white border border-gray-300 rounded-md px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none" 
+          @click="toggleMobileMenu()"
         >
         <Icon v-if="!isMobileMenuOpen" name="uil:bars" class="w-4 h-4" />
         <Icon v-else name="uil:times" class="w-4 h-4" />

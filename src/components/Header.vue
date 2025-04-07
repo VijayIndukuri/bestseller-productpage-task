@@ -2,7 +2,7 @@
   <header ref="headerRef" class="text-black py-5 border-b border-gray-100">
     <div class="container mx-auto">
       <div class="flex flex-row items-center md:justify-between justify-center my-4">
-        <Categories ref="categoriesRef" @selectedCategory="handleSelectedCategory" @mobileMenuOpen="handleMobileMenuOpen" @topLevelCategories="handleTopLevelCategories" class="md:relative absolute left-4" />
+        <Categories ref="categoriesRef" class="md:relative absolute left-4" @selectedCategory="handleSelectedCategory" @mobileMenuOpen="handleMobileMenuOpen" @topLevelCategories="handleTopLevelCategories" />
         <h1 class="text-xl font-bold"><NuxtLink to="/">CLOTHING STORE</NuxtLink></h1>
         <div class="md:relative absolute right-4">
             <div class="md:block hidden">
@@ -93,7 +93,6 @@ const handleSearch = () => {
 
 const selectedCategory = ref(null)
 const handleSelectedCategory = (category) => {
-  //console.log(category) 
   selectedCategory.value = category
 }
 

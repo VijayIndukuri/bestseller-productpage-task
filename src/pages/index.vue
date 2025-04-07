@@ -5,7 +5,7 @@
       <div v-for="card in allCards" 
            :key="card.id" 
            :class="[
-             card.type == 'product' ? 'max-w-full sm:max-w-[420px] max-h-[512px]': sizeClass(card.promotion.type),
+             card.type == 'product' ? 'max-w-[420px] max-h-[650px]': sizeClass(card.promotion.type),
              'w-full'
            ]">
         <ProductCard v-if="card.type == 'product'" 

@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto p-4 sm:p-6">
-    <div class="mb-2 text-gray-400 text-sm">
-      <Icon name="mdi:chevron-left" class="text-black hover:underline" />
+    <div class="mb-2 flex items-center gap-1 text-gray-400 text-sm">
+      <Icon name="mdi:chevron-left" class="hover:underline" />
       <NuxtLink to="/products" class="hover:underline">Back to Products</NuxtLink>
     </div>
     <div v-if="product" class="grid grid-cols-1 md:grid-cols-5 gap-6">

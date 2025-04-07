@@ -2,30 +2,51 @@
   <header ref="headerRef" class="text-black py-5 border-b border-gray-100">
     <div class="container mx-auto">
       <div class="flex flex-row items-center justify-between">
-        <!--nav>
-          <ul class="flex gap-8">
-            <li><NuxtLink to="/products" class="font-light hover:text-blue-600 transition-colors">Men</NuxtLink></li>
-            <li><NuxtLink to="/" class="font-light hover:text-blue-600 transition-colors">Women</NuxtLink></li>
-            <li><NuxtLink to="/" class="font-light hover:text-blue-600 transition-colors">Kids</NuxtLink></li>
-          </ul>
-        </nav-->
-        <Categories ref="categoriesRef" @selectedCategory="handleSelectedCategory" />
-        <h1 class="text-xl font-bold tracking-widest"><NuxtLink to="/">CLOTHING STORE</NuxtLink></h1>
+        <Categories ref="categoriesRef" @selectedCategory="handleSelectedCategory" @mobileMenuOpen="handleMobileMenuOpen" @topLevelCategories="handleTopLevelCategories" />
+        <h1 class="text-xl font-bold"><NuxtLink to="/">CLOTHING STORE</NuxtLink></h1>
         <div class="relative">
-          <input 
-            v-model="searchQuery" 
-            type="text" 
-            placeholder="Search products..." 
-            class="pl-3 pr-10 py-1 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:border-blue-500"
-            @keyup.enter="handleSearch"
-          />
-          <button 
-            class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600"
-            @click="handleSearch"
-          >
-            <Icon name="uil:search" class="w-4 h-4" />
-          </button>
+            <div class="md:block hidden">
+                <input 
+                    v-model="searchQuery" 
+                    type="text" 
+                    placeholder="Search products..." 
+                    class="pl-3 pr-10 py-1 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:border-blue-500"
+                    @keyup.enter="handleSearch"
+                />
+                <button 
+                    class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600"
+                    @click="handleSearch"
+                >
+                    <Icon name="uil:search" class="w-4 h-4" />
+                </button>
+            </div>
+            <div class="md:hidden mr-4">
+            <button 
+                class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600"
+                @click="handleSearch"
+            >
+                <Icon name="uil:search" class="w-6 h-6" />
+            </button>
+            </div>
         </div>
+      </div>
+      <div v-if="mobileMenuOpen" class="md:hidden flex flex-col w-fullitems-center justify-between border-t border-gray-200">
+        <ul class="py-1">
+          <li v-for="category in topLevelCategories" :key="category.id" class="px-4 py-2 hover:bg-gray-100 cursor-pointer mx-auto border-b border-gray-200 flex  items-center justify-between" @click="selectedCategory = category">
+            <div v-if="category.categories">
+                {{ category.name.en || category.name.dk }}
+            </div>
+            <NuxtLink
+            v-else
+            :to="`/products?category=${category.id}`"
+            class=""
+            >
+                {{ category.name.en || category.name.dk }}
+            </NuxtLink>
+            <Icon v-if="category == selectedCategory" name="mdi:chevron-down" class="w-4 h-4" />
+            <Icon v-else name="mdi:chevron-right" class="w-4 h-4" />
+          </li>
+        </ul>
       </div>
     </div>
     <SelectedCategory v-if="selectedCategory" ref="selectedCategoryRef" :selectedCategory="selectedCategory" />
@@ -37,6 +58,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import Categories from './Categories.vue';
 import SelectedCategory from './SelectedCategory.vue';
+
 const router = useRouter()
 const searchQuery = ref('')
 const headerRef = ref(null)
@@ -67,6 +89,16 @@ const handleClickOutside = (event) => {
     }
   }
 }
+const mobileMenuOpen = ref(false)
+const handleMobileMenuOpen = (isOpen) => {
+    mobileMenuOpen.value = isOpen
+}
+const topLevelCategories = ref([])
+const handleTopLevelCategories = (categories) => {
+    topLevelCategories.value = categories
+}
+
+
 
 // Add and remove event listeners
 onMounted(() => {

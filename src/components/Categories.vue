@@ -1,7 +1,20 @@
 <template>
-  <div class="content-center">
-    <!-- Main categories (top level) -->
-    <div class="flex flex-wrap gap-3 justify-center mb-4">
+  <div class="">
+    <!-- Main categories (top level) mobile view -->
+    <div class="md:hidden w-full pl-4 py-4">
+      <div class="relative">
+        <button 
+          @click="toggleMobileMenu()" 
+          class="w-full flex items-center justify-between bg-white border border-gray-300 rounded-md px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none"
+        >
+        <Icon v-if="!isMobileMenuOpen" name="uil:bars" class="w-4 h-4" />
+        <Icon v-else name="uil:times" class="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+    
+    <!-- Main categories (top level) desktop view -->
+    <div class="hidden md:block flex flex-wrap gap-3 justify-center mb-4">
         <ul class="flex gap-8 mt-4 justify-center">
             <li 
                 v-for="category in topLevelCategories" 
@@ -32,11 +45,11 @@
 import { ref, computed } from 'vue'
 import data from '@/data/data.json'
 
-const emit = defineEmits(['selectedCategory'])
+const emit = defineEmits(['selectedCategory', 'mobileMenuOpen', 'topLevelCategories'])
 // Get the category structure from data
 const rootCategory = ref(data.categories)
 const selectedCategory = ref(null)
-
+const isMobileMenuOpen = ref(false)
 // Get only the top-level categories
 const topLevelCategories = computed(() => {
     let topLevelCategories = []
@@ -54,7 +67,16 @@ const topLevelCategories = computed(() => {
     })
     return topLevelCategories
 })
-
+const toggleMobileMenu = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value
+  emit('mobileMenuOpen', isMobileMenuOpen.value)
+  if (isMobileMenuOpen.value) {
+    emit('topLevelCategories', topLevelCategories.value)
+  }
+  else {
+    emit('topLevelCategories', [])
+  }
+}
 const toggleCategory = (category) => {
   if (selectedCategory.value && selectedCategory.value.id === category.id) {
     // If clicking the same category again, close the dropdown

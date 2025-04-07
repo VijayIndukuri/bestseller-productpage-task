@@ -10,7 +10,7 @@
           </ul>
         </nav-->
         <Categories ref="categoriesRef" @selectedCategory="handleSelectedCategory" />
-        <h1 class="text-xl font-bold tracking-widest">CLOTHING STORE</h1>
+        <h1 class="text-xl font-bold tracking-widest"><NuxtLink to="/">CLOTHING STORE</NuxtLink></h1>
         <div class="relative">
           <input 
             v-model="searchQuery" 

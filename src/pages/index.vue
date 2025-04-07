@@ -1,52 +1,61 @@
 <template>
   <div class="container mx-auto px-6 py-12">
     <p class="text-gray-500 mb-8 font-light">Explore our collection of quality clothing</p>
-    <div v-if="filteredProducts.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <ProductCard 
-        v-for="product in filteredProducts" 
-        :key="product.id" 
-        :product="product" 
-      />
-    </div>
-    <div v-else class="text-center py-8">
-      <p class="text-gray-500">No products found matching your search criteria</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div v-for="card in allCards" :key="card.id" :class="card.type == 'product' ? 'max-w-[420px] max-h-[512px]': sizeClass(card.promotion.type)">
+        <ProductCard v-if="card.type == 'product'" 
+          :product="card.product" 
+        />
+        <PromotionCard v-if="card.type == 'promotion'"
+          :promotion="card.promotion"
+        />
+      </div>
+      
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, computed } from 'vue'
 import data from '@/data/data.json'
+import PromotionCard from '@/components/PromotionCard.vue'
 
-const route = useRoute()
-const allProducts = ref(data.products)
-const searchQuery = ref('')
+const products = ref(data.products)
+const promotionalSpots = ref(data.promotionalSpots)
 
-onMounted(() => {
-  if (route.query.search) {
-    searchQuery.value = route.query.search.toString()
-  }
+const allCards = computed(() => {
+  let cards = [];
+  products.value.map(product => {
+    cards.push({
+      product: product,
+      promotion: null,
+      type: 'product',
+      id: product.id
+    })
+  });
+  promotionalSpots.value.map(promotion => {
+    cards.splice(promotion.position, 0, {
+      promotion: promotion,
+      product: null,
+      type: 'promotion',
+      id: promotion.id
+    })
+  });
+  console.log(cards)
+  return cards;
 })
-
-watch(() => route.query.search, (newVal) => {
-  if (newVal) {
-    searchQuery.value = newVal.toString()
-  } else {
-    searchQuery.value = ''
+const sizeClass = ((type) => {
+  console.log(type)
+  switch (type) {
+    case '2x2':
+      return 'row-span-2 col-span-2'
+    case '2x1':
+      return 'row-span-1 col-span-2 max-h-[494px]'
+    case '1x2':
+      return 'row-span-2 col-span-1'
+    case '1x1':
+    default:
+      return 'row-span-1 col-span-1'
   }
-})
-
-const filteredProducts = computed(() => {
-  if (!searchQuery.value.trim()) {
-    return allProducts.value
-  }
-  
-  const query = searchQuery.value.toLowerCase()
-  return allProducts.value.filter(product => {
-    const name = product.name?.dk?.toLowerCase() || ''
-    const description = product.description?.dk?.toLowerCase() || ''
-    return name.includes(query) || description.includes(query)
-  })
 })
 </script> 
